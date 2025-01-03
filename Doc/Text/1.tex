@@ -38,9 +38,23 @@
     \newpage
     \item[-] \textbf{Compute the Cubesat local orbital frame vector directions in your geocentric reference frame RE (theoretical computation)}
     
-    text
+    To compute the LOF vector directions we first define the local orbital frame in Python according to the above-mentioned (R,W,S) definition.
+    Then, we define a position vector, \textit{r}, and a velocity vector, \textit{v}, in the geocentric reference frame.
+    The LOF unit vectors are defined mathematically according to the position and velocity vectors and their sizes (normalised):
+    \begin{itemize}
+        \item $\vec{R} = \frac{\vec{r}}{|r|}$ \qquad \qquad (radial component)
+        \item $\vec{W} = \vec{R} \times \vec{V}$ \qquad (normal component)
+        \item $\vec{S} = \frac{\vec{v}}{|v|}$ \qquad \qquad (tangential component)
+    \end{itemize}
 
+    An example of these vectors is generated in the Python code on lines 20-29 with the output:
+    \begin{lstlisting}[frame=single, language=Python]
+        Radial Direction (R_hat): [1. 0. 0.]
+        Normal Direction (W_hat): [0. 0. 1.]
+        Tangential Direction (S_hat): [0. 1. 0.]
+    \end{lstlisting}
 
+    
     
     \item[-] \textbf{Make a plot of the local orbital frame vector directions (as a function of time)}
 
