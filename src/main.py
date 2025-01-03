@@ -5,8 +5,7 @@ matplotlib.use('QtAgg')
 
 def compute_orbital_frame(r, v):
     """
-    Compute the local orbital frame directions for a CubeSat using RWS frame.
-    (And normalise to unit vectors)
+    Compute the local orbital frame directions for a CubeSat using RWS frame. (And normalise to unit vectors)
     :param r: Position vector in ECI frame (3-element array)
     :param v: Velocity vector in ECI frame (3-element array)
     :return: Unit vectors (R_hat, W_hat, S_hat) in ECI frame
@@ -87,4 +86,5 @@ plt.ylabel("Unit Vector Components")
 plt.legend()
 
 plt.tight_layout()
+plt.savefig('../doc/Graphics/LOF_vector_directions_plot')
 plt.show()
