@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('QtAgg')
+
 
 def normalize(vector):
     """Return a normalized vector."""
@@ -18,62 +21,46 @@ def compute_orbital_frame(r, v):
     S_hat = normalize(np.cross(W_hat, R_hat))
     return R_hat, W_hat, S_hat
 
-# Parameters for a circular orbit
-orbital_radius = 7000  # km
-orbital_speed = 7.5  # km/s
-orbital_period = 2 * np.pi * orbital_radius / orbital_speed  # seconds
+def plot_ground_track(inclination_deg, altitude_km, time_steps=500):
+    """Plot the ground track of a satellite for a given inclination and altitude."""
+    Earth_radius = 6371  # km
+    orbital_radius = Earth_radius + altitude_km
+    mu = 398600.4418  # Earth’s gravitational parameter (km^3/s^2)
+    orbital_speed = np.sqrt(mu / orbital_radius)
+    orbital_period = 2 * np.pi * np.sqrt(orbital_radius**3 / mu)
+    time = np.linspace(0, orbital_period, time_steps)
+    incl_rad = np.radians(inclination_deg)
 
-time_steps = 500
-time = np.linspace(0, orbital_period, time_steps)
+    latitudes = []
+    longitudes = []
 
-R_vectors, W_vectors, S_vectors = [], [], []
+    for t in time:
+        angle = 2 * np.pi * t / orbital_period
+        r = np.array([orbital_radius * np.cos(angle), orbital_radius * np.sin(angle), 0])
+        v = np.array([-orbital_speed * np.sin(angle), orbital_speed * np.cos(angle), 0])
 
-# Simulate the orbit
-for t in time:
-    angle = 2 * np.pi * t / orbital_period
-    r = np.array([orbital_radius * np.cos(angle), orbital_radius * np.sin(angle), 0])
-    v = np.array([-orbital_speed * np.sin(angle), orbital_speed * np.cos(angle), 0])
-    R_hat, W_hat, S_hat = compute_orbital_frame(r, v)
-    R_vectors.append(R_hat)
-    W_vectors.append(W_hat)
-    S_vectors.append(S_hat)
+        R_hat, W_hat, S_hat = compute_orbital_frame(r, v)
 
-R_vectors = np.array(R_vectors)
-W_vectors = np.array(W_vectors)
-S_vectors = np.array(S_vectors)
+        lat = np.degrees(np.arcsin(np.sin(incl_rad) * np.sin(angle)))
+        lon = np.degrees(angle % (2 * np.pi)) - 180
 
-# Plot the components over time
+        latitudes.append(lat)
+        longitudes.append(lon)
+
+    plt.plot(longitudes, latitudes, label=f"Inclination {inclination_deg}°")
+
+# Plotting ground tracks for different orbits
 plt.figure(figsize=(12, 8))
+plot_ground_track(0, 408)
+plot_ground_track(51.6, 408)
+plot_ground_track(80, 408)
+plot_ground_track(5, 408)
+plot_ground_track(90, 408)
 
-# Radial direction components
-plt.subplot(3, 1, 1)
-plt.plot(time / 3600, R_vectors[:, 0], label="R_x", color="r")
-plt.plot(time / 3600, R_vectors[:, 1], label="R_y", color="g")
-plt.plot(time / 3600, R_vectors[:, 2], label="R_z", color="b")
-plt.title("Radial Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
+plt.scatter(0, 0, color='red', label='Point P (0°, 0°)', s=100)
+plt.title("Ground Tracks for Various Orbits")
+plt.xlabel("Longitude (degrees)")
+plt.ylabel("Latitude (degrees)")
 plt.legend()
-
-# Normal direction components
-plt.subplot(3, 1, 2)
-plt.plot(time / 3600, W_vectors[:, 0], label="W_x", color="r")
-plt.plot(time / 3600, W_vectors[:, 1], label="W_y", color="g")
-plt.plot(time / 3600, W_vectors[:, 2], label="W_z", color="b")
-plt.title("Normal Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
-plt.legend()
-
-# Tangential direction components
-plt.subplot(3, 1, 3)
-plt.plot(time / 3600, S_vectors[:, 0], label="S_x", color="r")
-plt.plot(time / 3600, S_vectors[:, 1], label="S_y", color="g")
-plt.plot(time / 3600, S_vectors[:, 2], label="S_z", color="b")
-plt.title("Tangential Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
-plt.legend()
-
-plt.tight_layout()
+plt.grid(True)
 plt.show()

@@ -17,20 +17,22 @@ def compute_orbital_frame(r, v):
     return R_hat, W_hat, S_hat
 
 # LOF unit vector directions example:
-orbital_radius = 6378 + 408
-orbital_speed = 7.66
-r1 = np.array([orbital_radius, 0, 0])   # Position in km
-v1 = np.array([0, orbital_speed, 0])    # Velocity in km/s (ISS)
+orbital_radius = 6378 + 408             # Position in km (given in assignment)
+orbital_speed = 7.66                    # Velocity in km/s (ISS)
+r1 = np.array([orbital_radius, 0, 0])
+v1 = np.array([0, orbital_speed, 0])
 
 R_hat, W_hat, S_hat = compute_orbital_frame(r1, v1)
 print("Radial Direction (R_hat):", R_hat)
 print("Normal Direction (W_hat):", W_hat)
 print("Tangential Direction (S_hat):", S_hat)
 
-
-# Parameters for a circular orbit
-# orbital_radius
-# orbital_speed
+# Plot vector directions over the course of one orbit
+''' using Parameters for a circular orbit
+    * orbital_radius (above)
+    * orbital_speed (above)
+    * orbital_period (calculated from above)
+'''
 orbital_period = 2 * np.pi * orbital_radius / orbital_speed  # seconds
 
 time_steps = 500
