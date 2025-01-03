@@ -1,0 +1,93 @@
+%\documentclass[12pt]{report}
+%\usepackage[margin=2.5cm]{geometry}    % formatting 
+
+\documentclass[english, 12pt, a4paper, online]{article} 
+\usepackage{a4wide}
+
+\usepackage{fancyhdr}                  % headers and footers
+\usepackage{graphicx, placeins, subfig, float, floatflt, wrapfig}         % Required for inserting images
+\usepackage{amsmath,amsfonts,amsfonts} % math
+\usepackage{siunitx}                   % typing values with units
+\usepackage{biblatex}
+\usepackage{tabto}                     % tabs on title page
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}  %blue links for titlepage :3
+\usepackage{parskip} % paragraph changing
+\usepackage[printonlyused, smaller]{acronym}
+
+\usepackage{lipsum} % sample text
+\usepackage{listings} % Including code into file
+\usepackage{color}
+
+\usepackage{enumitem}       % alphabetical lists
+
+% MAPLE
+%Packages for maple
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{mathtools}
+\usepackage{maple}
+\usepackage[utf8]{inputenc}
+\usepackage{breqn}
+\usepackage{textcomp}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+\usepackage[toc,page]{appendix} % For appendices
+
+
+
+% =========== Setup for page numbering ===========
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead{}
+\fancyfoot{} 
+\fancyfoot[R]{\thepage}
+
+\addbibresource{references.bib}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+
+% =========== Document chapters ===========
+\pagenumbering{roman}
+\include{Text/Titlepage}
+\include{Text/Preface}
+%\include{Text/Abstract}
+%\include{Text/Symbols and Abbreviations}
+\tableofcontents
+\addcontentsline{toc}{section}{Contents}
+\include{} % DO NOT REMOVE
+
+% content chapters
+\pagenumbering{arabic}
+\include{Text/1}
+\include{Text/2}
+%\include{Text/3}
+%\include{Text/4}
+%\include{Text/5}
+
+
+% =========== REFERENCES ===========
+\addcontentsline{toc}{section}{References}
+\section*{References}
+\label{sec:references}
+\printbibliography[heading=none]
+
+\include{Text/Appendix}
+\end{document}

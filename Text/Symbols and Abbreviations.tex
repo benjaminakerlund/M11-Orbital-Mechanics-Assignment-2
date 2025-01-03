@@ -1,0 +1,31 @@
+%% Created: Vincent Brückner
+%% define acronym, eg. LTU:              \acro{LTU}{Luleå University of Technology}
+%% use in text:                 \ac{LTU} -> first time: Luleå University of Technology (LTU) ;-> all following times: LTU
+%% (Note capital letters)
+%% force long version in text:  \acf{LTU} -> Luleå University of Technology (LTU)
+%% force short version in text: \acs{LTU} -> LTU
+%% long version without LTU:    \acl{LTU} -> Luleå University of Technology
+%% More info: https://ftp.acc.umu.se/mirror/CTAN/macros/latex/contrib/acronym/acronym.pdf
+
+%% Before publishing: Copy all acronyms into Excel and sort by alphabetic order
+
+
+\addcontentsline{toc}{section}{Symbols and Abbreviations}
+\section*{Symbols and Abbreviations}
+
+\subsection*{Symbols}
+\label{subsec:symbols}
+List of symbols I guess
+
+
+%\vfill
+
+\subsection*{Abbreviations}
+\label{subsec:abbreviations}
+
+\begin{acronym}[CCSDS] % [longest acronym]
+    \acro{PSF}{Point Spread Function}
+    \acro{UPS}{Université Toulouse III - Paul Sabatier}
+    \acro{LTU}{Luleå University of Technology}
+    \acro{ML}{Maximum Likelihood estimator}
+\end{acronym}

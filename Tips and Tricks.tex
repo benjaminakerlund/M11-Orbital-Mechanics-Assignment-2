@@ -1,0 +1,289 @@
+% Author:   Benjamin Åkerlund
+% Updated:  27 Feb. 2024
+% Purpose:  File containing often-used LaTeX code blocks for school reports and assignments
+
+%% code for skipping a line
+\begin{comment}
+    \vspace*{4\baselineskip}
+    OR
+    \vspace{2cm}
+\end{comment}
+
+
+
+%% Section for including code blocks
+\begin{comment}
+    \begin{lstlisting}[language = Mathematica]
+    \end{lstlisting}
+\end{comment}
+
+
+% Default title page
+\begin{comment}
+    \author{Benjamin Åkerlund, \\ 
+    \url{benker-3@student.ltu.se}}
+    \title{
+        The Solar System F7008R, \\
+        Exercise Sheet 2}
+    \vspace{8pt}    
+    \maketitle
+    \thispagestyle{empty}    
+\end{comment}
+
+% Code for including figure
+\begin{comment}
+    \begin{figure*}[!ht]
+        \centering
+        \includegraphics[width=0.8\textwidth]{SWING_EDIT.png}
+        \caption{SWING-kuvaaja säädetyillä swing arvoilla.}
+        \label{fig:kuva}
+    \end{figure*} 
+\end{comment}
+
+% Code for including multiple figures
+\begin{comment}
+    \begin{figure}[h]
+        \centering
+        \subfloat[Final plot of our Python code]
+        {\includegraphics[width=0.9\textwidth]{Images/particles.png}
+        \label{fig:f2-1}}
+        \hfill
+        \subfloat[Given comparison plot]
+        {\includegraphics[width=\textwidth]{Images/comparison_20160711.png}
+        \label{fig:f2-2}}
+        \caption{Comparison of our final plot and given plot}
+    \end{figure}
+\end{comment}
+
+\begin{comment}
+    \begin{minipage}[bl]{.5\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Graphics/orbital elements.png}
+    \end{minipage}
+    \begin{minipage}[br]{.4\linewidth}
+        \begin{equation*}
+            \begin{split}
+                &\Omega: \text{ Right Ascension of Ascending Node (RAAN)} \\
+                &a: \text{ Semi Major Axis} \\
+                &e: \text{ Eccentricity} \\
+                &i: \text{ Inclination} \\
+                &\omega: \text{ Argument of Perigee} \\
+                &v_0: \text{ True Anomaly} \\
+                &t_0: \text{ Epoch} \\
+            \end{split}
+        \end{equation*}
+    \end{minipage}
+    \captionof{figure}{Orbital elements as defined in Appendix A in lab instructions.}
+    \label{fig:orbital_elements}
+\end{comment}
+
+% Different code for multiple figs
+\begin{comment}
+    \begin{figure}[!tbp]
+      \centering
+      \subfloat[Flower one.]{\includegraphics[width=0.4\textwidth]{flower1.jpg}\label{fig:f1}}
+      \hfill
+      \subfloat[Flower two.]{\includegraphics[width=0.4\textwidth]{flower2.jpg}\label{fig:f2}}
+      \caption{My flowers.}
+    \end{figure}
+\end{comment}
+
+% Hugeass table from my BSc thesis
+\begin{comment}
+    \begin{table}[ht]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \small
+        \begin{tabular}{|l |l |p{0.4\linewidth} |l |}
+            \hline
+            \textbf{Name} & \textbf{Year} & \textbf{Mission} & \textbf{Status} \\
+            \hline
+                SACRED      &   2006    &   Measure total amt. of radiation and test effect on 4 COTS ICs & Launch failure \\
+                ROBUSTA-1A \& -1B  &   2012 \& 2017    &   Measure radiation-induced degradation of electronic devices & Reenterd, no signal \& Operational \\
+                Argus       &   2015    &   Improve the ability to model the effects of space radiation on modern electronics & Launch failure\\
+                RadFX Sat   &   2017    &    Demonstrate an on-orbit platform for rad qualification of components for space flight  &   Operational \\
+                RadSat-g \& -u    &   2018 \& 2019    &   Demonstrate computer architecture designed to mitigate radiation induced faults   &   Operational \& Semi-Operational \\
+                Elfin-A, B    &   2018    &   Explore the mechanism responsible for loss of relativistic electrons from radiation belts   &   Operational \\   
+                Shields-1   &   2018    &    Raise the TKL of Atomic Number (Z) grade radiation shielding technologies   &   Operational \\
+                RadSat-u    &   2019    &   Same as RadSat-g    &   Semi-Operational \\
+                Centauri-5  &   2022    &    Upgrade to Centauri-4 radiation effaects in LEO mitigation   &   Operational \\
+                CELESTA (ROBUSTA-1D)    &   2022    &   In-orbit testing of radiation monitor and a SEL experiment  &   Operational \\
+                MTCube 2 (ROBUSTA-1F)   &   2022    &   Sensitivity of memories with respect to radiation SEEs &   Operational \\
+                CAPSTONE & 2022 & Demonstrate spacecraft-to-spacecraft navigation and enter Lunar near-reactilinear halo orbit to verify its feasibility for the Gateway lunar orbiting outpost & Operational \\
+                EQUULEUS & 2022 & Lunar L2 (libration-point) orbiter to demonstrate technologies and characterize environment & Operational \\ 
+                GTOSat                  &   2023?   &   Advancing understanding of acceleration and loss of relativistic electrons in the Earth’s outer radiation belt      & expected launch 2023 \\
+                FORESAIL-2  &   2023?    &   CubeSat to GTO with tether for Coulomb Drag experiment and measuring radiation in Van Allen belts   &     expected launch 2023 \\
+                Orbital Factory 4 (OF4) &   2024?   &   Measure long-term radiation effects due to electrons and protons in GTO     &  expected launch 2024    \\
+                DRACO-A, B &   2025?   &   Study cislunar radiation environment and prove the ability of nanosatellites to operate in this environment &   expected launch 2025    \\
+                MaSat-2 &   -   &   Radiation dose measurement and improved CubeSat platform    &   cancelled   \\
+                RAMPART &   -   &   Demonstrate various CubeSat platform technologies (RadiationTest CUBEflow SATellite) &   cancelled   \\
+                RavenSat    &   -   &   Carbon-mitigated Radiation  &   cancelled
+                
+        \end{tabular}
+    } 
+    \\ \hline        
+    \caption{List radiation related test missionsmissions compiled from \cite{nanosats}.}
+    \label{tab:testmission}
+
+\end{table}
+\end{comment}
+
+% Old assignments ==> inspiration?
+\begin{comment}
+    \section*{Tehtävä A: monikriteerinen arviointi (EXCEL)}
+    
+    \begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{SWING.png}
+    \caption{Tehtävän A 2-D Stacked column-kuvaaja.}
+    \label{fig:kuva}
+    \end{figure*} \\
+    
+    \begin{itemize}
+    
+    \item[] \textbf{Mitkä ovat arviossasi kaksi huonointa teemaa? Käyttäen luomaasi kuvaajaa, tunnista missä on näiden teemojen suurimmat heikkoudet suhteessa muihin teemoihin.}
+    
+    Huonoimmat teemat ovat selvästi "Tilastollinen analyysi Excelillä" sekä "Differentiaaliyhtälöt Mathematicalla". Näiden suurimmat heikkoudet suhteessa muihin teemoihin ovat ensimmäiselle "hyödyllisyys opintojen kannalta" ja "työmäärä" taikka "Aiheen kiinnostavuus". Toisella teemalla on kolmessa kriteerissä nollia: "hyödyllisyys työelämässä", "Aiheen kiinnostavuus" sekä "Tehtävien tekemisen mukavuus". \\ 
+    
+    \item[] \textbf{Selitä tarkemmin, mistä huonoimpien teemojen heikkoudet johtuvat. Miksi päädyit niiden kohdalla tekemiisi arvioihin?}
+    \item[1.] Tilastollinen analyysi Excelillä
+    
+    Aihe on mielestäni hyvin tärkeä ja hyödyllinen työelämässä, mutta varsinaisesti opintoihiini tämä ei tunnu olevan kovin hyödyllinen. Lisäksi tilastollinen analyysi ei ollenkaan kiinnosta minua henkilökohtaisesti, jonka takia tämä on saanut muissakin kohdissa suht. huonoa palautetta.
+    
+    \pagebreak
+    \item[2.] Differentiaaliyhtälöt Mathematicalla
+    
+    Koin kurssin alussa Mathematican oppimista hyvin tärkeäksi, koska siitä olisi varmasti hyötyä muissa kursseissa, esim fyssakursseilla. Mutta sen minkä tiesin jo oli totta, Mathematicaa on aika vaikeaa käyttää, eikä se ole kovin käyttäjäystävällinen omasta mielestäni ainakin. Tehtävät olivat aika tylsiä, ja niitä oli vaikea yhdistää oikeeseen elämään taikka muihin opintoihin. 
+    
+    En koe, että sain nähdä Mathematican oikean voiman, jotta tämän huono käyttäjäystävällisyyden tuoma haitta ylittyisi. \\
+    
+    
+    \item[] \textbf{Keksi vähintään yksi parannusehdotus, jolla huonoimpia teemoja voisi parantaa niiden suurimpien heikkouksien osalta. Kuvaile ehdotus mahdollisimman tarkasti.}
+    
+    \item[1.] Tilastollinen analyysi Excelillä
+    
+    En keksi sen kummempaa, kun suurin syy huonolle arviolle oli oman kiinnostuksen puute.
+    
+    \item[2.] Differentiaaliyhtälöt Mathematicalla
+    
+    Kaipaisin ehkä enemmän käyttöä tälle ohjelmalle ja paremmin käyttöä Mathematican todellisesta voimasta, kuten esim. kuvaajien manipulointi vaativia fyssa-ilmiöitä esittäessä. 
+    
+    Esimerkkinä. Kurssin "ELEC-C4140 - Kenttäteoria" aikana tutkimme sähkömagneettisen aallon (valon) etenemistä avaruudessa. Tässä kurssihenkilökunta oli luonut varsin tyylikkään manipuloitavan kuvaajan Mathematicassa, jossa saimme manipuloida SM-aallon polarisoitumista, jolloinka oli helpompaa visualisoida mitä se itse polarisointi oikeasti tarkoittaa. 
+    
+    Tässä voisi olla hyvä teema tälle kurssille, kun yksinkertaistaa hieman teoriaa, "need to know"-tarpeiden mukaan, ja tässä pääsisi opiskelija luomaan kuvaajia, joista olisi selvästi hyötyä muillakin kursseilla. Kenttäteoriakurssin henkilökunta varmaan ilomielin jakaa nämä Mathematica scriptit. Jari Holopainen oli muistaakseni kurssin koordinaattori:
+    \url{jari.holopainen@aalto.fi}
+    
+    \pagebreak
+    \item[] \textbf{Keksi lisäkriteeri kurssin teemojen arviointiin.}
+    
+    Tehtävien asiaankuuluvuus oman alan opintoihin (esim. BIZ vs ARTS vs Tekniikan alat...) \\
+    
+    
+    Lisää palautukseesi täytetty taulukko-välilehden taulukko.
+    \begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{taul.png}
+    \caption{Tehtävän A täytetty taulukko.}
+    \label{fig:kuva}
+    \end{figure*} \\
+    
+    \item[] \textbf{Anna vapaata palautetta koskien tätä tehtävää.}
+    
+    Ihan mielenkiintoinen tehtävä josta voi hyvinkin olla hyötyä tulevissa opinnoissa. Varsinkin jos aikoo tehdä työtä jonkin kurssin assistenttinä voi olla hyödyllistä osata. Lisäksi ovela tapa saada opiskelijat antamaan palautetta koko kurssista kokonaisuutena.
+    
+    \textbf{Loput kurssista:}
+    
+    Moni tehtävä tuntui olevan hyvin painottunu soveltumaan kauppis/tuta opiskelijoiden tarpeisiin, jonka takia näin perus teekkari oli hieman vierailla vesillä. Ihan mielenkiintoisia tehtäviä sinäänsä, mutta minusta ainakin tuntui siltä, että enemmän teknisiä tehtäviä olisi voinut olla, kun niitä kuitenkin löytyy hyvin paljon esim. automaation yms. puolella. 
+    
+    Lisäksi moni tehtävä oli hyvin toistuva, ja tuntui kovasti siltä että tehdään samat tehtävät koko-ajan eri ohjelmilla. Tämä on ehkä suotavaa tulosten verifioimiseen yms. mutta tehtävän palauttajalle menee tylsäksi ja/tai toistuvaksi.
+    
+    
+    
+    
+    
+    \end{itemize}
+    
+    
+    \pagebreak
+    \section*{Erilaisia painotustapoja}
+    
+    \begin{itemize}
+    
+    \begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Tasa.png}
+    \caption{Tehtävän A Tasapainotetuilla painokertoimilla luotu kuvaaja.}
+    \label{fig:kuva}
+    \end{figure*} \\
+    
+    \begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{ROC.png}
+    \caption{Tehtävän A tärkeysjärjestyksen painokertoimilla luotu kuvaaja.}
+    \label{fig:kuva}
+    \end{figure*} \\
+    
+    \pagebreak
+    \item[] \textbf{Eroavatko tulokset alkuperäisistä? Miten?}
+    
+    Tasapainotettuna on hyvin pienet erot alkuperäisiin arvoihin. Tässä käytännössä suuri ero näkyy keskivertaisissa tuloksissa kuten "Regressionanalyysi R:ällä" ja "montecarlo" yms. 
+    
+    ROC painotuksella taas nähdään huomattava ero, missä huonoin teema on vielä huonompi kuin alkiperäinen, ja muut teemat ja ääripäät ovat taas tasaisemmin jaettuja. 
+    
+    \end{itemize}
+    
+    
+    
+    
+    
+    
+    
+    
+    \pagebreak
+    \section*{Kotitehtävä: Herkkyysanalyysi}
+    \begin{itemize}
+    
+    \item[] \textbf{Tutki SWING-pisteitä säätämällä, että miten suuri on kahden huonoimman teeman rankki parhaimmillaan.}
+    
+    Kahdella huonoimmalla teemalla olen antanut eniten pisteitä kriteereissä "Hyödyllisyys työelämässä", "Opetusmateriaalin hyvyys" sekä "työmäärä (arvoasteikko)". Joten asetetaan nämä swing arvot suurimmaksi ja muiden kriteerien arvot hyvin pieniksi, jotta saataisiin paras mahdollinen tulos näille kahdelle teemalle. 
+    
+    Näin kun tehdään, saadaan ao. kuvaaja, josta voidaan tulkita, että kumpikaan alkuperäisistä huonoimmista teemoista ei ole enään huonoin teema. Huonoin teema on tällöin "Dynaamisen systeemien mallinnus ja säätö", eli simulink osuus. Tämä kuvaaja on saatu "taulukko" välilehdestä A-tehtävän ensimmäisestä kuvaajasta. 
+    
+    Tässä tilanteessa huonoimpien teemojen rankin pitäisi olla suurimmillaan, ja nähdään sen olevan seuraava:
+    
+    TAExcR:\tab 6
+    
+    DYMath:\tab 7
+    
+    Eli kolmanneksi ja toiseksi surkeimmat rankit. 
+    
+    \begin{figure*}[!ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{SWING_EDIT.png}
+    \caption{SWING-kuvaaja säädetyillä swing arvoilla.}
+    \label{fig:kuva}
+    \end{figure*} 
+    
+    \pagebreak
+    \item[] \textbf{Löydätkö teemaparin A, B siten, että A on B:tä parempi kaikilla painokerroin yhdistelmillä (ts. A dominoi B:tä)?}
+    
+    \item[] \textit{Tutki mitä VLOOKUP-toiminto tekee excelissä. Käytä VLOOKUP:ia luodaksesi lista, jossa teemat ovat pisteidensä mukaisessa järjestyksessä (ensimmäisenä suuripisteisin). Listan tulee päivittyä automaattisesti kun vaihdat painokertoimia.} \\
+    
+    Hieman tutkimisen jälkeen, huomaan että RegMatl, eli "Regressioimallit Matlabilla", teema on AINA listan ykkösenä. Eli käytännössä tämä teema dominoi aivan kaikkia muita teemoja.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \item[] \textit{Liitettynä Excel-tiedostoni palautuksessa.}
+    
+    
+    
+    \end{itemize}
+\end{comment}
