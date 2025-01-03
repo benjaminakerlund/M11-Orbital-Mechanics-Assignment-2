@@ -1,37 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('QtAgg')
+
+def normalize(vector):
+    """Return a normalized vector."""
+    return vector / np.linalg.norm(vector)
 
 def compute_orbital_frame(r, v):
     """
     Compute the local orbital frame directions for a CubeSat using RWS frame.
-    (And normalise to unit vectors)
     :param r: Position vector in ECI frame (3-element array)
     :param v: Velocity vector in ECI frame (3-element array)
     :return: Unit vectors (R_hat, W_hat, S_hat) in ECI frame
     """
-    R_hat = r / np.linalg.norm(r)
-    w = np.cross(r, v)              # radial component
-    W_hat = w / np.linalg.norm(w)   # orbit normal component
-    S_hat = v / np.linalg.norm(v)   # Tangential component
+    R_hat = normalize(r)
+    h = np.cross(r, v)
+    W_hat = normalize(h)
+    S_hat = normalize(np.cross(W_hat, R_hat))
     return R_hat, W_hat, S_hat
 
-# LOF unit vector directions example:
-orbital_radius = 6378 + 408
-orbital_speed = 7.66
-r1 = np.array([orbital_radius, 0, 0])   # Position in km
-v1 = np.array([0, orbital_speed, 0])    # Velocity in km/s (ISS)
-
-R_hat, W_hat, S_hat = compute_orbital_frame(r1, v1)
-print("Radial Direction (R_hat):", R_hat)
-print("Normal Direction (W_hat):", W_hat)
-print("Tangential Direction (S_hat):", S_hat)
-
-
 # Parameters for a circular orbit
-# orbital_radius
-# orbital_speed
+orbital_radius = 7000  # km
+orbital_speed = 7.5  # km/s
 orbital_period = 2 * np.pi * orbital_radius / orbital_speed  # seconds
 
 time_steps = 500
