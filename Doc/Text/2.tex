@@ -47,7 +47,7 @@
 
 
 
-    \newpage
+    \vspace{1cm}
     \item[-] \textbf{Describe an algorithm that allows to determine if the point P is visible from the CubeSat. } 
 
     For point \textit{P} to be visible from the satellite, the norm of the vector between \textit{P} and the satellite footprint point $P_f$ coordinates needs to be smaller or equal to the norm of a vector between \textit{P} and $P_{max}$ (19.7°, 19.7°).
@@ -59,20 +59,71 @@
             \sqrt{P_{f,lat}^2 + P_{f,long}^2} &\leq \sqrt{(19.7^\circ)^2 + (19.7^\circ)^2}
         \end{split}
     \end{equation}
-    
+
+
+    \newpage
     \item[-] \textbf{Code this algorithm and show, on a ground map, the points of the orbit which are visible from this point P.}
 
-    Somethin \autoref{sec:Appendix_A} on lines XX using the \verb|...| function and the output plot can be seen below in \autoref{fig:}.
+    For this exercise, the code for plotting a ground track from Homework1 will be partially reused and modified in such a way that it checks for coordinates over 100 orbits with the condition from \autoref{eq:p_visible} and appends these into a new list and plots them on a ground map.
+    The code implementation can be seen in \autoref{sec:Appendix_A} using the \verb|plot_groundtrack_visible()| function and the output plot can be seen below in \autoref{fig:P_visible}.
     
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=\linewidth]{Doc/Graphics/P_visible_groundtrack.png}
+        \caption{Point P visibility over 100 orbits}
+        \label{fig:P_visible}
+    \end{figure}
+
 
     
     \item[-] \textbf{What is the duration of the visibility for a satellite passing at the zenith of P?}
-\end{itemize}
 
- 
-\vspace{0.5cm}
-\begin{itemize}
+    When the satellite passes over the zenith of point \textit{P}, the point is visible from opposite ends of the horizon, i.e., at a total distance of $2D_H$.
+    Since the ISS/CubeSat has an approximately circular orbit, the duration of the visibility for the CubeSat can be calculated based on the orbital period of the ISS and Earth's circumference:
+
+    \begin{equation}
+        \label{eq:visibility_duration}
+        \begin{split}
+            T_{vis} &= \frac{2 D_H}{2 \pi \, R_E} T \\
+            &= 10.5725 \approx 10.6\,min
+        \end{split}
+    \end{equation}
+
+    The code implementation can be seen in \autoref{sec:Appendix_A} in the \verb|visibility_duration():| function.
+
+
+    \newpage
     \item[-] \textbf{Express the vector (CubeSat, P) in satellite local orbital frame.}
+
+    When the satellite is directly above the point \textit{P}, i.e. at the zenith, the vector $\Vec{C}=$ (CubeSat, P) can be expressed in LOF as (-408km, 0, 0). 
+
+    At any point during the orbit, the vector $\Vec{C}$ can be expressed as the sum of the (negative) vector from the centre of the Earth to the CubeSat, $\Vec{R_S}$, and the vector from the centre of the Earth to the point \textit{P} (which will always be the same), $\Vec{R_P}$, as follows:
+    \begin{equation}
+        \label{eq:vector_C}
+        \Vec{C} = -\Vec{R_S} + \Vec{R_P}
+    \end{equation}
+
+    
     \item[-] \textbf{Describe an algorithm to compute the direction of the point P in local orbital reference frame.}
-    \item[-] Code this algorithm and show, on a 3D plot, the vector wrt time over one orbit.
+
+    To compute the direction of the vector between the CubeSat and the point \textit{P}, $\Vec{C}$, we start with the unit vector in LOF pointing straight down (-1, 0, 0).
+    We then take the angle, $\phi$, that is formed between the vector from the CubeSat to the centre of the Earth and between the CubeSat and the point \textit{P} and rotate the unit vector in the orbital plane by this angle. 
+    To find the angle, $\phi$, we must first solve the hypotenuse, \textit{d}, of the triangle formed by these points via the law of cosines:
+
+    \begin{equation}
+    \label{eq:direction_p_LOF}
+        \begin{split}
+            \phi &= \arccos{\left( \frac{d^2 + (R_E + h)^2 + R_E}{2 \cdot d \cdot (R_E + h)} \right)} \\
+            d &= \sqrt{(R_E + h)^2 + R_E^2 - 2 \cdot (R_E + h) \cdot R_E \cdot \cos{\theta}} 
+        \end{split}
+    \end{equation}
+
+    where $\theta$ is the true anomaly, $R_E$ is the radius of the Earth and \textit{h} is the satellite orbit altitude as before.
+
+
+    
+    \item[-] \textbf{Code this algorithm and show, on a 3D plot, the vector wrt time over one orbit.}
+
+    The vector, $\Vec{C}$, can be transformed to ECI with the transformation matrix from \autoref{eq:LOF-ECI_transformation_matrix} as expressed before.
+    
 \end{itemize}
