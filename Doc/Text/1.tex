@@ -38,30 +38,59 @@
     \newpage
     \item[-] \textbf{Compute the Cubesat local orbital frame vector directions in your geocentric reference frame RE (theoretical computation)}
     
-    To compute the LOF vector directions we first define the local orbital frame in Python according to the above-mentioned (R,W,S) definition.
-    Then, we define a position vector, \textit{r}, and a velocity vector, \textit{v}, in the geocentric reference frame.
-    The LOF unit vectors are defined mathematically according to the position and velocity vectors and their sizes (normalised):
+
+    The transformation matrix for converting LOF to ECI can be found in the lecture slides (1-2-3, slide 49):
+    \tiny
+    \begin{equation}
+    \label{eq:LOF-ECI_transformation_matrix}
+    \begin{split}
+        &(X, Y, Z)|_{ECI} = (x, y, z)|_{LOF} \cdot \textbf{M}_{\omega + \theta} \cdot \mathbf{M}_{i} \cdot \mathbf{M}_{\Omega} \\
+        &= (x, y, z)_{\mathbf{LOF}}
+        \begin{bmatrix}
+            \cos(\omega + \theta) & \sin(\omega + \theta) & 0 \\
+            -\sin(\omega + \theta) & \cos(\omega + \theta) & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}
+        \cdot
+        \begin{bmatrix}
+            1 & 0 & 0 \\
+            0 & \cos(i) & \sin(i) \\
+            0 & -\sin(i) & \cos(i)
+        \end{bmatrix}
+        \cdot
+        \begin{bmatrix}
+            \cos(\Omega) & \sin(\Omega) & 0 \\
+            -\sin(\Omega) & \cos(\Omega) & 0 \\
+            0 & 0 & 1
+        \end{bmatrix}
+    \end{split}
+    \end{equation}
+    \normalsize
+
+    where:
     \begin{itemize}
-        \item $\vec{R} = \frac{\vec{r}}{|r|}$ \qquad \qquad (radial component)
-        \item $\vec{W} = \vec{R} \times \vec{V}$ \qquad (normal component)
-        \item $\vec{S} = \frac{\vec{v}}{|v|}$ \qquad \qquad (tangential component)
+       \item $\omega$ is the argument of perigee (40.8630° for the ISS as of Jan 3rd 2025) \cite{ISS_orbit_parameters} 
+       \item $\theta$ is the true anomaly (68.2039° for the ISS as of Jan 3rd 2025)   \cite{ISS_orbit_parameters}      
+       \item $i$ is the inclination of the orbit (51.6°)
+       \item $\Omega$ is the RAAN of the orbit (40.3677° for the ISS as of Jan 3rd 2025) \cite{ISS_orbit_parameters}
     \end{itemize}
 
-    An example of these vectors is generated in the Python code on lines 20-29 with the output:
-    \begin{lstlisting}[frame=single, language=Python]
-        Radial Direction (R_hat): [1. 0. 0.]
-        Normal Direction (W_hat): [0. 0. 1.]
-        Tangential Direction (S_hat): [0. 1. 0.]
+    The above transformation matrix can be simplified for calculation by setting $\omega = 0$ and $\theta = 0$, however, this can also be calculated in Python with all values. 
+    An example of these vectors is generated in the Python code in \autoref{sec:Appendix_A} on line 94 using the \verb|compute_LOF()| function with the output:
+    \begin{lstlisting}[frame=single]
+        Transformation Matrix:        
+        [[-0.62913233  0.23570859  0.7406983 ]
+         [-0.58867996 -0.76675579 -0.25601066]
+         [ 0.5075908  -0.59709883  0.62114778]]
+        
+        Vector in Inertial Frame:
+        [ 0.34727457 -1.61144642  0.53163974]
     \end{lstlisting}
 
-    
-    
+    \newpage
     \item[-] \textbf{Make a plot of the local orbital frame vector directions (as a function of time)}
 
-    plot...
-
-    refer to python code in appendix?
-
+    The script for plotting the LOF vector directions can be seen in the Python code in \autoref{sec:Appendix_A} on lines 95 using the \verb|computeandplot_LOF| function.
     \autoref{fig:LOF_plot} shows how the components of the CubeSat's local orbital frame vectors (R, W, S) evolve over time during one orbital period in a circular orbit.
 
     The R vector points directly from the Earth’s center toward the CubeSat.
