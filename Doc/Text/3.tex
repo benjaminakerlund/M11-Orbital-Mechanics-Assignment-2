@@ -1,24 +1,23 @@
-\section{Validation of results}
-\label{sec:validation}
+\section{Attitude Determination and Control System (AOCS)}
+
+\textbf{The payload onboard your satellite has a pointing requirement of 0,5°. You have to design a AOCS for the cubesat, with a budget of about 100 kEuros. The sensors and actuators that you can use are to be found on \url{https://www.cubesatshop.com/}}
 
 \begin{itemize}
-    \item[-] \textbf{Use publicly available tools to draw the ISS ground-track at the same epoch and compare it with your results.}
+    \item[-] \textbf{Make a schematics diagram (such as the one found on slide 61 of “9-10.pdf”) of the AOCS control system with the (real) elements found here. } 
+
+    text
+
+    \item[-] \textbf{Explain why you chose each element and how many of each are needed. }
+
+    Since we are conducting a CubeSat mission which is being released from the ISS we can make a few assumptions about the requirements that will drive the design of the AOCS system.
+    \begin{itemize}
+        \item \textit{CubeSat size:} Since the ISS CubeSat deployers (J-SSOD and NRCSD) seem to accomodate up to 6U \cite{deployers_wiki} cubesats and most recent CubeSats deployed from the ISS have been up to 3U we will assume 3U as a reasonable size and design driver for the mission.
+        This size limitation of 30cm x 30cm x 30cm for the CubeSat wall designs will dictate the size and amount of systems the satellite can accomodate
+
+        \item Assuming the CubeSat is used for Earth-related observations or measurements, we will leave the Nadir face empty of AOCS systems to leave space for the payload
+
+        \item 
+    \end{itemize}
+    
 \end{itemize}
-
-Using the ISSTracker tool we can plot a groundtrack of the ISS for the same timeperiod as in Section \ref{sec:ground_track}. 
-For this, we first extract the epoch from the telemetry data and arrive at: $2024-10-07 \quad 12:48:15 \quad UTC$.
-We can now input this to the ISSTracker (exchanging UTC for $+0000$) and see the correct plot in Figure Section \ref{fig:ISS_validation} below.
-
-From the figure, especially the starting and ending points of the groundtrack, we see that our computed groundtrack matches this fairly well.
-Additionally, the orbital period which arrived at in \ref{sec:TLE} of $5576.436740221023 \, s$ or $92.94061233701704 \, min$ matches the orbital period value found online of about $92,9 \, min$ \cite{ISS_tracking_orbitalperiod}.
-
-As such, we can conclude that our method for computing and plotting the groundtrack in Section \ref{sec:TLE} is sound.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{Graphics/ISS_validation.png}
-    \caption{Groundtrack of the ISS drawn at our epoch 2024-10-07 12:48:15+0000 (UTC) using online tool. \cite{ISStracker}}
-    \label{fig:ISS_validation}
-\end{figure}
-
 
