@@ -1,92 +1,97 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('QtAgg')
+import numpy as np
+import matplotlib.pyplot as plt
 
-def compute_orbital_frame(r, v):
-    """
-    Compute the local orbital frame directions for a CubeSat using RWS frame. (And normalise to unit vectors)
-    :param r: Position vector in ECI frame (3-element array)
-    :param v: Velocity vector in ECI frame (3-element array)
-    :return: Unit vectors (R_hat, W_hat, S_hat) in ECI frame
-    """
-    R_hat = r / np.linalg.norm(r)
-    w = np.cross(r, v)              # radial component
-    W_hat = w / np.linalg.norm(w)   # orbit normal component
-    S_hat = v / np.linalg.norm(v)   # Tangential component
-    return R_hat, W_hat, S_hat
 
-# LOF unit vector directions example:
-orbital_radius = 6378 + 408             # Position in km (given in assignment)
-orbital_speed = 7.66                    # Velocity in km/s (ISS)
-r1 = np.array([orbital_radius, 0, 0])
-v1 = np.array([0, orbital_speed, 0])
+def compute_LOF(omega, theta, i, OMEGA):
+    # Defining transformation matrixes
+    R1 = np.array([
+        [np.cos(omega + theta), np.sin(omega + theta), 0],
+        [-np.sin(omega + theta), np.cos(omega + theta), 0],
+        [0, 0, 1]
+    ])
 
-R_hat, W_hat, S_hat = compute_orbital_frame(r1, v1)
-print("Radial Direction (R_hat):", R_hat)
-print("Normal Direction (W_hat):", W_hat)
-print("Tangential Direction (S_hat):", S_hat)
+    R2 = np.array([
+        [1, 0, 0],
+        [0, np.cos(i), np.sin(i)],
+        [0, -np.sin(i), np.cos(i)]
+    ])
 
-# Plot vector directions over the course of one orbit
-''' using Parameters for a circular orbit
-    * orbital_radius (above)
-    * orbital_speed (above)
-    * orbital_period (calculated from above)
-'''
-orbital_period = 2 * np.pi * orbital_radius / orbital_speed  # seconds
+    R3 = np.array([
+        [np.cos(OMEGA), np.sin(OMEGA), 0],
+        [-np.sin(OMEGA), np.cos(OMEGA), 0],
+        [0, 0, 1]
+    ])
 
-time_steps = 500
-time = np.linspace(0, orbital_period, time_steps)
+    # Compute the overall transformation matrix
+    transformation_matrix = R1 @ R2 @ R3
 
-R_vectors, W_vectors, S_vectors = [], [], []
+    # Example vector in the Local Orbital Frame (LOF)
+    vector_LOF = np.array([1, 1, 1])
 
-# Simulate the orbit
-for t in time:
-    angle = 2 * np.pi * t / orbital_period
-    r = np.array([orbital_radius * np.cos(angle), orbital_radius * np.sin(angle), 0])
-    v = np.array([-orbital_speed * np.sin(angle), orbital_speed * np.cos(angle), 0])
-    R_hat, W_hat, S_hat = compute_orbital_frame(r, v)
-    R_vectors.append(R_hat)
-    W_vectors.append(W_hat)
-    S_vectors.append(S_hat)
+    # Transform the vector to the inertial frame
+    vector_inertial = transformation_matrix @ vector_LOF
 
-R_vectors = np.array(R_vectors)
-W_vectors = np.array(W_vectors)
-S_vectors = np.array(S_vectors)
+    print("Transformation Matrix:")
+    print(transformation_matrix)
+    print("\nVector in Inertial Frame:")
+    print(vector_inertial)
 
-# Plot the components over time
-plt.figure(figsize=(12, 8))
 
-# Radial direction components
-plt.subplot(3, 1, 1)
-plt.plot(time / 3600, R_vectors[:, 0], label="R_x", color="r")
-plt.plot(time / 3600, R_vectors[:, 1], label="R_y", color="g")
-plt.plot(time / 3600, R_vectors[:, 2], label="R_z", color="b")
-plt.title("Radial Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
-plt.legend()
+def computeandplot_LOF(omega, theta, i, OMEGA):
+    # Re-Define the transformation matrices
+    R3_omega_theta = lambda t: np.array([
+        [np.cos(omega + t), np.sin(omega + t), 0],
+        [-np.sin(omega + t), np.cos(omega + t), 0],
+        [0, 0, 1]
+    ])
 
-# Normal direction components
-plt.subplot(3, 1, 2)
-plt.plot(time / 3600, W_vectors[:, 0], label="W_x", color="r")
-plt.plot(time / 3600, W_vectors[:, 1], label="W_y", color="g")
-plt.plot(time / 3600, W_vectors[:, 2], label="W_z", color="b")
-plt.title("Normal Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
-plt.legend()
+    R1_i = np.array([
+        [1, 0, 0],
+        [0, np.cos(i), np.sin(i)],
+        [0, -np.sin(i), np.cos(i)]
+    ])
 
-# Tangential direction components
-plt.subplot(3, 1, 3)
-plt.plot(time / 3600, S_vectors[:, 0], label="S_x", color="r")
-plt.plot(time / 3600, S_vectors[:, 1], label="S_y", color="g")
-plt.plot(time / 3600, S_vectors[:, 2], label="S_z", color="b")
-plt.title("Tangential Direction Components Over Time")
-plt.xlabel("Time (hours)")
-plt.ylabel("Unit Vector Components")
-plt.legend()
+    R3_OMEGA = np.array([
+        [np.cos(OMEGA), np.sin(OMEGA), 0],
+        [-np.sin(OMEGA), np.cos(OMEGA), 0],
+        [0, 0, 1]
+    ])
 
-plt.tight_layout()
-plt.savefig('../doc/Graphics/LOF_vector_directions_plot')
-plt.show()
+    # Generate time values and calculate LOF vectors over time
+    time_steps = np.linspace(0, 2 * np.pi, 100)
+    lof_vectors = []
+
+    for t in time_steps:
+        transformation_matrix = R3_omega_theta(t) @ R1_i @ R3_OMEGA
+        vector_LOF = np.array([1, 1, 1])
+        vector_inertial = transformation_matrix @ vector_LOF
+        lof_vectors.append(vector_inertial)
+
+    lof_vectors = np.array(lof_vectors)
+
+    # Plotting the LOF vector components over time
+    plt.figure(figsize=(10, 6))
+    plt.plot(time_steps, lof_vectors[:, 0], label='R Component')
+    plt.plot(time_steps, lof_vectors[:, 2], label='W Component')
+    plt.plot(time_steps, lof_vectors[:, 1], label='S Component')
+    plt.xlabel('Time (radians)')
+    plt.ylabel('LOF Vector Components')
+    plt.title('LOF Vector Directions Over Time')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig('../doc/Graphics/LOF_vector_directions_plot')
+    plt.show()
+
+
+# Initial parameters
+omega = np.radians(40.8630)
+theta = np.radians(68.2039)
+i = np.radians(51.6)
+OMEGA = np.radians(40.3677)
+
+compute_LOF(omega, theta, i, OMEGA)
+computeandplot_LOF(omega, theta, i, OMEGA)
+
+

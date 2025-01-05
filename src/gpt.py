@@ -1,66 +1,54 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('QtAgg')
+import numpy as np
+import matplotlib.pyplot as plt
 
+# Convert degrees to radians for calculations
+omega = np.radians(40.8630)
+theta = np.radians(68.2039)
+i = np.radians(51.6)
+OMEGA = np.radians(40.3677)
 
-def normalize(vector):
-    """Return a normalized vector."""
-    return vector / np.linalg.norm(vector)
+# Define the transformation matrices
+R3_omega_theta = lambda t: np.array([
+    [np.cos(omega + t), np.sin(omega + t), 0],
+    [-np.sin(omega + t), np.cos(omega + t), 0],
+    [0, 0, 1]
+])
 
-def compute_orbital_frame(r, v):
-    """
-    Compute the local orbital frame directions for a CubeSat using RWS frame.
-    :param r: Position vector in ECI frame (3-element array)
-    :param v: Velocity vector in ECI frame (3-element array)
-    :return: Unit vectors (R_hat, W_hat, S_hat) in ECI frame
-    """
-    R_hat = normalize(r)
-    h = np.cross(r, v)
-    W_hat = normalize(h)
-    S_hat = normalize(np.cross(W_hat, R_hat))
-    return R_hat, W_hat, S_hat
+R1_i = np.array([
+    [1, 0, 0],
+    [0, np.cos(i), np.sin(i)],
+    [0, -np.sin(i), np.cos(i)]
+])
 
-def plot_ground_track(inclination_deg, altitude_km, time_steps=500):
-    """Plot the ground track of a satellite for a given inclination and altitude."""
-    Earth_radius = 6371  # km
-    orbital_radius = Earth_radius + altitude_km
-    mu = 398600.4418  # Earth’s gravitational parameter (km^3/s^2)
-    orbital_speed = np.sqrt(mu / orbital_radius)
-    orbital_period = 2 * np.pi * np.sqrt(orbital_radius**3 / mu)
-    time = np.linspace(0, orbital_period, time_steps)
-    incl_rad = np.radians(inclination_deg)
+R3_OMEGA = np.array([
+    [np.cos(OMEGA), np.sin(OMEGA), 0],
+    [-np.sin(OMEGA), np.cos(OMEGA), 0],
+    [0, 0, 1]
+])
 
-    latitudes = []
-    longitudes = []
+# Generate time values and calculate LOF vectors over time
+time_steps = np.linspace(0, 2 * np.pi, 100)
+lof_vectors = []
 
-    for t in time:
-        angle = 2 * np.pi * t / orbital_period
-        r = np.array([orbital_radius * np.cos(angle), orbital_radius * np.sin(angle), 0])
-        v = np.array([-orbital_speed * np.sin(angle), orbital_speed * np.cos(angle), 0])
+for t in time_steps:
+    transformation_matrix = R3_omega_theta(t) @ R1_i @ R3_OMEGA
+    vector_LOF = np.array([1, 1, 1])
+    vector_inertial = transformation_matrix @ vector_LOF
+    lof_vectors.append(vector_inertial)
 
-        R_hat, W_hat, S_hat = compute_orbital_frame(r, v)
+lof_vectors = np.array(lof_vectors)
 
-        lat = np.degrees(np.arcsin(np.sin(incl_rad) * np.sin(angle)))
-        lon = np.degrees(angle % (2 * np.pi)) - 180
-
-        latitudes.append(lat)
-        longitudes.append(lon)
-
-    plt.plot(longitudes, latitudes, label=f"Inclination {inclination_deg}°")
-
-# Plotting ground tracks for different orbits
-plt.figure(figsize=(12, 8))
-plot_ground_track(0, 408)
-plot_ground_track(51.6, 408)
-plot_ground_track(80, 408)
-plot_ground_track(5, 408)
-plot_ground_track(90, 408)
-
-plt.scatter(0, 0, color='red', label='Point P (0°, 0°)', s=100)
-plt.title("Ground Tracks for Various Orbits")
-plt.xlabel("Longitude (degrees)")
-plt.ylabel("Latitude (degrees)")
+# Plotting the LOF vector components over time
+plt.figure(figsize=(10, 6))
+plt.plot(time_steps, lof_vectors[:, 0], label='X Component')
+plt.plot(time_steps, lof_vectors[:, 1], label='Y Component')
+plt.plot(time_steps, lof_vectors[:, 2], label='Z Component')
+plt.xlabel('Time (radians)')
+plt.ylabel('LOF Vector Components')
+plt.title('LOF Vector Directions Over Time')
 plt.legend()
 plt.grid(True)
 plt.show()
+
