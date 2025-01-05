@@ -87,10 +87,7 @@ def computeandplot_LOF(omega, theta, i, OMEGA):
     plt.savefig('../doc/Graphics/LOF_vector_directions_plot')
     plt.show()
 
-def calculate_max_view_angle(h):
-    # Earth parameters
-    R_E = 6378  # Radius of Earth in km
-
+def calculate_max_view_angle(h, R_E):
     # Calculate alpha using the formula
     D_H = math.sqrt(2 * R_E * h)
     alpha = math.asin(D_H / (R_E + h))
@@ -102,7 +99,7 @@ def calculate_max_view_angle(h):
     print(f"\nAlpha (in radians): {alpha:.6f}")
     print(f"Alpha (in degrees): {alpha_deg:.6f}")
 
-def plot_groundtrack():
+def plot_groundtrack_visible():
     '''
     Parts of this software was reused from homework1
     Ground track computation
@@ -197,19 +194,24 @@ def plot_groundtrack():
     plt.savefig("../doc/Graphics/P_visible_groundtrack")
     plt.show()
 
-# Initial parameters
+def visibility_duration(h, R_E, T):
+    D_H = math.sqrt(2 * R_E * h)
+    T_vis = ((2*D_H) / (2*math.pi * R_E)) * T
+    print("Visibility duration (in minutes): ", T_vis)
+
+# Initial parameters taken from ISS data: https://celestrak.org/Norad/elements/table.php?GROUP=stations&FORMAT=tle
 omega = np.radians(40.8630)
 theta = np.radians(68.2039)
 i = np.radians(51.6)
 OMEGA = np.radians(40.3677)
 h = 408
+R_E = 6378  # Radius of Earth in km
+orbital_period = 92.86 # ISS orbital period in minutes
 
 compute_LOF(omega, theta, i, OMEGA)
 if input("Do you want to plot LOF directions [y/n]?") == "y":
     computeandplot_LOF(omega, theta, i, OMEGA)
-calculate_max_view_angle(h)
+calculate_max_view_angle(h, R_E)
 if input("Do you want to plot groundtrack [y/n]?") == "y":
-    plot_groundtrack()
-
-
-
+    plot_groundtrack_visible()
+visibility_duration(h, R_E, orbital_period)
